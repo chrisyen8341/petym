@@ -18,10 +18,10 @@ public class PetJDBCDAO implements PetDAO_interface {
 	private static final String PASSWORD = "123456";
 	
 	
-	private static final String INSERT_STMT = "INSERT INTO PET(PETNO, MEMNO,PETNAME,PETKIND,PETGENDER,PETSPECIES,PETINTRO,PETBDAY,PETIMG)"
-			+ " VALUES(PETNO_SQ.NEXTVAL,?,?,?,?,?,?,?,?)";
+	private static final String INSERT_STMT = "INSERT INTO PET(PETNO, MEMNO,PETNAME,PETKIND,PETGENDER,PETSPECIES,PETINTRO,PETBDAY,PETIMG,PETSTATUS)"
+			+ " VALUES(PETNO_SQ.NEXTVAL,?,?,?,?,?,?,?,?,?)";
 	private static final String UPDATE_STMT = "UPDATE PET SET PETNO = ?, MEMNO = ?, PETNAME = ?, "
-			+ "PETKIND = ?, PETGENDER = ?, PETSPECIES = ?, PETINTRO = ?, PETBDAY = ?, PETIMG = ? WHERE PETNO =¡@?";
+			+ "PETKIND = ?, PETGENDER = ?, PETSPECIES = ?, PETINTRO = ?, PETBDAY = ?, PETIMG = ?, PETSTATUS = ? WHERE PETNO =¡@?";
 	private static final String DELETE_STMT = "DELETE FROM PET WHERE PETNO = ?";
 	private static final String FIND_BY_PK = "SELECT * FROM PET WHERE PETNO = ?";
 	private static final String GET_ALL = "SELECT * FROM PET";
@@ -47,8 +47,8 @@ public class PetJDBCDAO implements PetDAO_interface {
 			Blob blob=con.createBlob();
 			blob.setBytes(1, pet.getPetImg());
 			pstmt.setBlob(8, blob);
+			pstmt.setInt(9, pet.getPetStatus());
 			pstmt.executeUpdate();
-
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
@@ -74,6 +74,42 @@ public class PetJDBCDAO implements PetDAO_interface {
 	}
 
 	@Override
+	public void add2(Pet pet, Connection con) {
+		PreparedStatement pstmt=null;
+		
+		try {
+			pstmt=con.prepareStatement(INSERT_STMT);
+			pstmt.setInt(1, pet.getMemNo());
+			pstmt.setString(2, pet.getPetName());
+			pstmt.setString(3, pet.getPetKind());
+			pstmt.setInt(4, pet.getPetGender());
+			pstmt.setString(5,pet.getPetSpecies());
+			pstmt.setString(6, pet.getPetIntro());
+			pstmt.setDate(7, pet.getPetBday());
+			Blob blob=con.createBlob();
+			blob.setBytes(1, pet.getPetImg());
+			pstmt.setBlob(8, blob);
+			pstmt.setInt(9, pet.getPetStatus());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally{
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+
+		}
+		
+	}
+
+
+	@Override
 	public void update(Pet pet) {
 		PreparedStatement pstmt=null;
 		Connection con=null;
@@ -93,7 +129,8 @@ public class PetJDBCDAO implements PetDAO_interface {
 			Blob blob=con.createBlob();
 			blob.setBytes(1, pet.getPetImg());
 			pstmt.setBlob(9, blob);
-			pstmt.setInt(10, pet.getPetNo());
+			pstmt.setInt(10, pet.getPetStatus());
+			pstmt.setInt(11, pet.getPetNo());
 			pstmt.executeUpdate();
 
 		} catch (ClassNotFoundException e) {
@@ -182,6 +219,7 @@ public class PetJDBCDAO implements PetDAO_interface {
 				pet.setPetIntro(rs.getString("petIntro"));
 				pet.setPetBday(rs.getDate("petBday"));
 				pet.setPetImg(rs.getBytes("petImg"));
+				pet.setPetStatus(rs.getInt("petStatus"));
 			}
 			
 		} catch (ClassNotFoundException e) {
@@ -239,6 +277,7 @@ public class PetJDBCDAO implements PetDAO_interface {
 				pet.setPetIntro(rs.getString("petIntro"));
 				pet.setPetBday(rs.getDate("petBday"));
 				pet.setPetImg(rs.getBytes("petImg"));
+				pet.setPetStatus(rs.getInt("petStatus"));
 				petList.add(pet);		
 			}
 			
@@ -273,5 +312,13 @@ public class PetJDBCDAO implements PetDAO_interface {
 		}
 		return petList;
 	}
+
+
+
+
+
+
+
+
 	
 }
