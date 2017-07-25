@@ -16,7 +16,7 @@ public class DateItemService {
 	public DateItemVO addDateItem(Integer sellerNo, Integer restListNo, String dateItemTitle, byte[] dateItemImg,
 			String dateItemText, Timestamp dateItemTime, Timestamp dateMeetingTime, String dateItemLocate, Integer dateItemPeople,
 			Boolean hasMate, Integer dateItemPrice, Integer dateItemStatus, Integer dateItemShow, Integer dateItemViewer, Integer buyerNo,
-			Boolean isQRCChecked, Integer buyerRep, Integer sellerRep, Boolean isInstantDate) {
+			Boolean isQRCChecked, Integer buyerRep, Integer sellerRep, Boolean isInstantDate , Integer petNo) {
 		
 		DateItemVO dateItemVO = new DateItemVO();
 		
@@ -38,6 +38,7 @@ public class DateItemService {
 		dateItemVO.setBuyerRep(buyerRep);
 		dateItemVO.setSellerRep(sellerRep);
 		dateItemVO.setIsInstantDate(isInstantDate);
+		dateItemVO.setPetNo(petNo);
 		dao.add(dateItemVO);
 		
 		return dateItemVO;
@@ -47,7 +48,7 @@ public class DateItemService {
 	public DateItemVO updateDateItem(Integer dateItemNo, Integer sellerNo, Integer restListNo, String dateItemTitle, byte[] dateItemImg,
 			String dateItemText, Timestamp dateItemTime, Timestamp dateMeetingTime, String dateItemLocate, Integer dateItemPeople,
 			Boolean hasMate, Integer dateItemPrice, Integer dateItemStatus, Integer dateItemShow, Integer dateItemViewer, Integer buyerNo,
-			Boolean isQRCChecked, Integer buyerRep, Integer sellerRep, Boolean isInstantDate) {
+			Boolean isQRCChecked, Integer buyerRep, Integer sellerRep, Boolean isInstantDate , Integer petOrdNo) {
 		
 		DateItemVO dateItemVO = new DateItemVO();
 		
@@ -70,6 +71,7 @@ public class DateItemService {
 		dateItemVO.setBuyerRep(buyerRep);
 		dateItemVO.setSellerRep(sellerRep);
 		dateItemVO.setIsInstantDate(isInstantDate);
+		dateItemVO.setPetNo(petOrdNo);
 		dao.update(dateItemVO);
 		
 		return dateItemVO;

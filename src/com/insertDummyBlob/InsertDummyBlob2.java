@@ -40,20 +40,6 @@ public class InsertDummyBlob2 {
 
    
     
-	// 餐廳會員照片修改
-	int r = 7001;
-    for (File file : new File("WebContent/DummyImg/restImg").listFiles()) { 
-    	RestImgJDBCDAO restImgJDBCDAO=new RestImgJDBCDAO();
-        RestImg restImg=restImgJDBCDAO.findByPK(r++);
-        try {
-			byte[] b = getPictureByteArray(file);
-			restImg.setRestImg(b);
-			restImgJDBCDAO.update(restImg);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}    
-    }
-    System.out.println("=============餐廳會員照片新增完畢================");
 
     
     // 發起活動照片修改
